@@ -2,44 +2,43 @@
 
 
 ATM::ATM(){
-    map[1] = 0;
-    map[5] = 0;
-    map[10] = 0;
-    map[20] = 0;
-    map[50] = 0;
-    map[100] = 0;
+    ATMCash[1] = 0;
+    ATMCash[5] = 0;
+    ATMCash[10] = 0;
+    ATMCash[20] = 0;
+    ATMCash[50] = 0;
+    ATMCash[100] = 0;
     sumOfMoney = 0;
 }
 
 
 void ATM::ATMloading(){
-    map[1] = 200;
-    map[5] = 100;
-    map[10] = 50;
-    map[20] = 50;
-    map[50] = 20;
-    map[100] = 10;
+    ATMCash[1] = 200;
+    ATMCash[5] = 100;
+    ATMCash[10] = 50;
+    ATMCash[20] = 50;
+    ATMCash[50] = 20;
+    ATMCash[100] = 10;
     sumOfMoney = 4200;
 }
 
 void ATM::cashIn(std::vector<int> cash){
     for(auto i:cash){
-        map[i]++;
+        ATMCash[i]++;
         sumOfMoney += i;
     }
 }
 
 
-void ATM::cashOut(int money){
-    if (sumOfMoney < money)
-    {
-        throw ATMExeption("ATM dosen`t have enoghe money");
+void ATM::cashOut(int money) {
+    if (sumOfMoney < money) {
+        throw ATMExeption("ATM doesn't have enough money");
     }
 
     std::map<int, int, std::greater<int>> used;
     int remaining = money;
 
-    for (auto it = map.rbegin(); it != map.rend(); ++it) {
+    for (auto it = ATMCash.rbegin(); it != ATMCash.rend(); ++it) {
         int denom = it->first;
         int count = it->second;
 
@@ -50,8 +49,16 @@ void ATM::cashOut(int money){
             remaining -= give * denom;
         }
     }
-    for (auto &u : used) {
-        map[u.first] -= u.second;
+
+    if (remaining > 0) {
+        throw ATMExeption("ATM cannot dispense the exact amount with available denominations");
     }
+
+    std::cout << "ATM gives you: " << std::endl;
+    for (auto &u : used) {
+        ATMCash[u.first] -= u.second;
+        std::cout << u.second << " banknotes of " << u.first << std::endl;
+    }
+
     sumOfMoney -= money;
 }

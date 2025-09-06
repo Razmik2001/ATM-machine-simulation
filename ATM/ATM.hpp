@@ -1,12 +1,13 @@
 #ifndef ATM_HPP
 #define ATM_HPP
 #include <map>
-#include "MyExeptions.hpp"
+#include <vector>
+#include "../exeptions/MyExeptions.hpp"
 
 using std::map;
 
 class ATM {
-    map<int,int> map;
+    map<int,int> ATMCash;
     int sumOfMoney = 0;
 public:
     // Constructor
