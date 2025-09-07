@@ -1,65 +1,70 @@
 # ATM Machine Simulation
 
-This project simulates a simple ATM (Automated Teller Machine) system in C++.  
+This project simulates a simple ATM (Automated Teller Machine) system in C++.
 It allows users to create accounts, authenticate, deposit and withdraw cash, and manage account information.
 
 ---
 
 ## Features
 
-- User account creation and authentication
-- Deposit cash with different denominations (100, 50, 20, 10, 5, 1)
-- Withdraw cash with denomination handling
-- Check account balance
-- Change login and password
-- Reset input attempts
-- User blocking after 3 wrong password attempts
+* User account creation and authentication
+* Deposit cash with different denominations (100, 50, 20, 10, 5, 1)
+* Withdraw cash with denomination handling
+* Check account balance
+* Change login and password
+* Reset input attempts
+* User blocking after 3 wrong password attempts
 
 ---
 
 ## Project Structure
 
+```
 ATM-machine-simulation/
 ├── ATM/
-│ ├── ATM.hpp
-│ ├── ATM.cpp
-│ ├── ATM_interface.hpp
-│ └── ATM_interface.cpp
+│   ├── ATM.hpp
+│   ├── ATM.cpp
+│   ├── ATM_interface.hpp
+│   └── ATM_interface.cpp
 ├── customer/
-│ ├── customer.hpp
-│ └── customer.cpp
+│   ├── customer.hpp
+│   └── customer.cpp
 ├── main.cpp
 ├── Makefile
 └── README.md
+```
 
-markdown
-Копировать код
-
-- `ATM/` – contains the ATM class and the interface for interacting with the ATM.
-- `customer/` – contains the Customer class representing a bank user.
-- `main.cpp` – main program that starts the ATM simulation.
-- `Makefile` – build instructions for compiling the project.
+* `ATM/` – contains the ATM class and the interface for interacting with the ATM.
+* `customer/` – contains the Customer class representing a bank user.
+* `main.cpp` – main program that starts the ATM simulation.
+* `Makefile` – build instructions for compiling the project.
 
 ---
 
 ## Build & Run
 
 ### Prerequisites
-- C++ compiler with C++11 support (e.g., g++)
-- Linux or Windows environment
+
+* C++ compiler with C++11 support (e.g., g++)
+* Linux or Windows environment
 
 ### Compilation
+
 ```bash
 make
-Run
-bash
-Копировать код
-./ATM_test
-Usage Example
-Here is an example session demonstrating the main features:
+```
 
-pgsql
-Копировать код
+### Run
+
+```bash
+./ATM_test
+```
+
+---
+
+## Usage Example
+
+```
 Do you need ATM? (y/n): y
 Do you already have a user? (y/n): n
 Set full name: John Doe
@@ -127,15 +132,19 @@ Withdrawal successful.
 Balance after withdrawal: 30
 
 Thank you for using our ATM.
-Notes
-Users are blocked after 3 incorrect password attempts.
+```
 
-The ATM only accepts integer cash amounts.
+---
 
-Deposits and withdrawals handle standard denominations: 100, 50, 20, 10, 5, 1.
+## Notes
 
-Switching users allows multiple accounts to be managed in the same session.
+* Users are blocked after 3 incorrect password attempts.
+* The ATM only accepts integer cash amounts.
+* Deposits and withdrawals handle standard denominations: 100, 50, 20, 10, 5, 1.
+* Switching users allows multiple accounts to be managed in the same session.
 
-Author
-Razmik Grigoryan
+---
 
+## Author
+
+**Razmik Grigoryan**
