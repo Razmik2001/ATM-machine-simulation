@@ -3,7 +3,7 @@
 
 
 // Constructor
-customer::customer(string fullName, string login, string password)
+customer::customer(string fullName, string login, string password):
     bankBalance(0.0) {
         setPassword(password);
         setFullName(fullName);
@@ -27,13 +27,13 @@ void customer::setPassword(const string& pass) { password = pass; }
 // --- Functions ---
 void customer::cashIn(std::vector<int> cash, ATM &atm) {
     int money = 0;
-    for (mon:cash){
+    for (auto mon : cash){
         money += mon;
     }
     if (money <= 0) {
         throw InvalidBalanceException("Deposit must be positive.");
     }
-    atm.cashIn(std::vector<int> cash);
+    atm.cashIn(cash);
     bankBalance += money;
 }
 
@@ -47,4 +47,8 @@ void customer::cashOut(int money, ATM &atm) {
     atm.cashOut(money);
     bankBalance -= 1.001 * money;
     bankBalance = std::round(bankBalance * 100.0) / 100.0;
+}
+
+void customer::resetInputAttempts(){
+    wrongPassAttempts = 3;
 }

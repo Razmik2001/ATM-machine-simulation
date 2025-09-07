@@ -1,11 +1,11 @@
-#ifndef ATM_INTERFACE
-#define ATM_INTERFACE
+#ifndef ATM_INTERFACE_HPP
+#define ATM_INTERFACE_HPP
 
 #include <iostream>
 #include <map>
 #include <string>
 #include "../customer/customer.hpp"
-#include "ATM.hpp" // подключаем класс ATM
+#include "ATM.hpp"
 
 using std::string;
 
@@ -13,15 +13,16 @@ class ATM_interface {
     std::map<string, customer> users;
     ATM atm; 
 public:
-    ATM_interface() {
-        atm.ATMloading();
-    }
+    ATM_interface();
 
     void addUserFromConsole();
-    bool userExists(const string& login) const;
-    void cashOut(string login);
-    void cashIn(string login);
-    bool checkPassword(customer &user)
+
+    // универсальная проверка пользователя
+    customer* authUser(const string& login);
+
+    void cashOut(const string& login);
+    void cashIn(const string& login);
+    void start();
 };
 
-#endif // ATM_INTERFACE
+#endif // ATM_INTERFACE_HPP

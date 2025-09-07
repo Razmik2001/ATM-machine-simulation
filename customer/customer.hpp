@@ -2,8 +2,7 @@
 #define CUSTOMER_HPP
 
 #include <string>
-#include "MyExceptions.hpp" 
-#include "ATM.hpp"
+#include "../ATM/ATM.hpp"
 
 using std::string;
 
@@ -12,11 +11,7 @@ class customer {
     string login;
     string password;
     double bankBalance;
-
-    // --- Setters ---
-    void setFullName(const string& name);
-    void setLogin(const string& log);
-    void setPassword(const string& pass);
+    int wrongPassAttempts = 3;
 
 public:
     // Constructor
@@ -25,24 +20,31 @@ public:
     customer(const customer&) = delete;           
     customer(customer&&) = delete;      
     // Assignment operators
+    
     customer& operator=(const customer&) = delete;
     customer& operator=(customer&&) = delete;          
+    
     // Destructor	
     ~customer();
+    
+    // --- Setters ---
+    void setLogin(const string& log);
+    void setPassword(const string& pass);
 
     // --- Getters ---
     string getFullName() const;
     string getLogin() const;
     string getPassword() const;
     double getBankBalance() const;
+    bool isBlocked(){
+        return wrongPassAttempts == 0;
+    }
 
     // --- Functions ---
     void cashIn(std::vector<int> cash, ATM &atm);
     void cashOut(int money, ATM &atm);
-
-    // --- Friend ---
-    friend void ATM::cashIn(std::vector<int> cash);
-    friend void ATM::cashOut(int money);
+    void wrongPass(){wrongPassAttempts--;}
+    void resetInputAttempts();
 };
 
 #endif // CUSTOMER_HPP
