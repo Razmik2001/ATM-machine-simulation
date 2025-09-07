@@ -1,7 +1,7 @@
 #include "ATM.hpp"
+#include <iostream>
 
-
-ATM::ATM(){
+ATM::ATM() {
     ATMCash[1] = 0;
     ATMCash[5] = 0;
     ATMCash[10] = 0;
@@ -11,8 +11,7 @@ ATM::ATM(){
     sumOfMoney = 0;
 }
 
-
-void ATM::ATMloading(){
+void ATM::ATMloading() {
     ATMCash[1] = 200;
     ATMCash[5] = 100;
     ATMCash[10] = 50;
@@ -22,13 +21,12 @@ void ATM::ATMloading(){
     sumOfMoney = 4200;
 }
 
-void ATM::cashIn(std::vector<int> cash){
-    for(auto i:cash){
+void ATM::cashIn(std::vector<int> cash) {
+    for (auto i : cash) {
         ATMCash[i]++;
         sumOfMoney += i;
     }
 }
-
 
 void ATM::cashOut(int money) {
     if (sumOfMoney < money) {

@@ -15,13 +15,12 @@ class ATM_interface {
 public:
     ATM_interface();
 
-    void addUserFromConsole();
+    string addUserFromConsole();
 
-    // универсальная проверка пользователя
     customer* authUser(const string& login);
 
-    void cashOut(const string& login);
-    void cashIn(const string& login);
+    void cashOut(customer &user);
+    void cashIn(customer &user);
     void start();
 };
 

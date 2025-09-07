@@ -2,6 +2,7 @@
 #define ATM_HPP
 #include <map>
 #include <vector>
+#include <functional>
 #include "../exeptions/MyExeptions.hpp"
 
 using std::map;
@@ -25,6 +26,5 @@ public:
     void cashIn(std::vector<int> cash);
     void cashOut(int money);
 };
-
 
 #endif // ATM_HPP

@@ -2,6 +2,7 @@
 #define CUSTOMER_HPP
 
 #include <string>
+#include <vector>
 #include "../ATM/ATM.hpp"
 
 using std::string;
@@ -16,18 +17,11 @@ class customer {
 public:
     // Constructor
     customer(string fullName, string login, string password);
-    customer() = delete;                          
-    customer(const customer&) = delete;           
-    customer(customer&&) = delete;      
-    // Assignment operators
-    
-    customer& operator=(const customer&) = delete;
-    customer& operator=(customer&&) = delete;          
-    
-    // Destructor	
+    // Destructor   
     ~customer();
     
     // --- Setters ---
+    void setFullName(const string& name);
     void setLogin(const string& log);
     void setPassword(const string& pass);
 
@@ -36,14 +30,14 @@ public:
     string getLogin() const;
     string getPassword() const;
     double getBankBalance() const;
-    bool isBlocked(){
+    bool isBlocked() {
         return wrongPassAttempts == 0;
     }
 
     // --- Functions ---
     void cashIn(std::vector<int> cash, ATM &atm);
     void cashOut(int money, ATM &atm);
-    void wrongPass(){wrongPassAttempts--;}
+    void wrongPass() { wrongPassAttempts--; }
     void resetInputAttempts();
 };
 

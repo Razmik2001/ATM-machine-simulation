@@ -1,4 +1,3 @@
-
 #include "ATM_interface.hpp"
 #include <limits>
 #include <vector>
@@ -7,7 +6,7 @@
 
 using std::string;
 
-void ATM_interface::addUserFromConsole() {
+string ATM_interface::addUserFromConsole() {
     std::string fullName, login, password;
 
     std::cout << "Set full name: ";
@@ -17,7 +16,7 @@ void ATM_interface::addUserFromConsole() {
         std::cout << "Set login: ";
         std::getline(std::cin, login);
 
-        if (userExists(login)) {
+        if (users.find(login) != users.end()) {
             std::cout << "User already exists. Try another login.\n";
         } else {
             break; 
@@ -27,11 +26,10 @@ void ATM_interface::addUserFromConsole() {
     std::cout << "Set password: ";
     std::getline(std::cin, password);
 
-    customer c(fullName, login, password);
-
-    users[login] = c;
+    users.emplace(login, customer(fullName, login, password)); 
 
     std::cout << "User added successfully.\n";
+    return login;
 }
 
 ATM_interface::ATM_interface() {
@@ -78,7 +76,7 @@ void ATM_interface::cashOut(customer &user) {
             throw std::invalid_argument("Input is not an integer!");
         }
 
-        user->cashOut(amount, atm);
+        user.cashOut(amount, atm);
         std::cout << "Withdrawal successful.\n";
     } catch (const std::exception &e) {
         std::cout << "Withdrawal failed: " << e.what() << "\n";
@@ -117,85 +115,107 @@ void ATM_interface::cashIn(customer &user) {
     }
 
     try {
-        user->cashIn(cash, atm);
+        user.cashIn(cash, atm);
         std::cout << "Deposit successful.\n";
     } catch (const std::exception &e) {
         std::cout << "Deposit failed: " << e.what() << "\n";
     }
 }
 
+void ATM_interface::start() {
+    char existATM;
+    std::cout << "Do you need ATM? (y/n): ";
+    std::cin >> existATM;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    if (tolower(existATM) == 'n') {
+        std::cout << "Thank you for using our ATM.\n";
+        return;
+    }
 
-void ATM_interface::start(){
-    while(true){
-        string username;
-        std::cout << "write your username : ";
-        std::cin >> username
-        customer user = authUser(username) 
-        if (user == nullptr){
-            std::cout << "user dont exist" << std::endl;
-            continue;
-        }
-        int choice;
-         std::cout << "What do you want to do?\n"
-                     "1: Check balance\n"
-                     "2: Cash in\n"
-                     "3: Cash out\n"
-                     "4: Change login\n"
-                     "5: Change password\n"
-                     "6: Reset input attempts\n"
-                     "7: choice another user\n"
-                     "else: exit"
-        std::cin >> choice
-        switch(choice){
-        case 1:{
-            user.getBankBalance();
-            break
-        }
-        case 2:{
-            cashIn(user);
-            break
-        }
-        case 3:{
-            cashOut(user):
-            break
-        }
-        case 4: {
-            std::string newLogin;
-            std::cout << "Set new login: ";
-            std::cin >> newLogin;
+    while (true) {
+        char existUser;
+        std::cout << "Do you already have a user? (y/n): ";
+        std::cin >> existUser;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-            if (users.find(newLogin) != users.end()) {
-                std::cout << "This login is already taken.\n";
-                break;
+        customer* user = nullptr;
+        if (tolower(existUser) == 'n') {
+            user = authUser(addUserFromConsole());  
+        }
+        else{
+            std::string username;
+            std::cout << "Enter your username: ";
+            std::getline(std::cin, username);
+
+            user = authUser(username);
+            if (user == nullptr) {
+                std::cout << "User doesn't exist or is blocked.\n";
+                continue;
             }
-
-            std::string oldLogin = user->getLogin();
-
-            user->setLogin(newLogin);
-
-            users[newLogin] = *user;
-            users.erase(oldLogin);
-
-            std::cout << "Login changed successfully.\n";
-            break;
         }
 
-        case 5:{
-            std::cout << "Set new password : "
-            std::cin >> username;
-            user.setLogin(username);
-            break
-        }
+        bool isUsing = true;
+        while (isUsing) {
+            int choice;
+            std::cout << "\nWhat do you want to do?\n"
+                      << "1: Check balance\n"
+                      << "2: Cash in\n"
+                      << "3: Cash out\n"
+                      << "4: Change login\n"
+                      << "5: Change password\n"
+                      << "6: Reset input attempts\n"
+                      << "7: Choose another user\n"
+                      << "Else: Exit\n";
 
-        case 6:{
-            user.resetInputAttempts();
-            break;
+            std::cin >> choice;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            switch (choice) {
+                case 1:
+                    std::cout << "Balance: " << user->getBankBalance() << "\n";
+                    break;
+                case 2:
+                    cashIn(*user);
+                    break;
+                case 3:
+                    cashOut(*user);
+                    break;
+                case 4: {
+                    std::string newLogin;
+                    std::cout << "Set new login: ";
+                    std::getline(std::cin, newLogin);
+
+                    if (users.find(newLogin) != users.end()) {
+                        std::cout << "This login is already taken.\n";
+                        break;
+                    }
+
+                    std::string oldLogin = user->getLogin();
+                    user->setLogin(newLogin);
+                    users.emplace(newLogin, *user);
+                    users.erase(oldLogin);
+                    std::cout << "Login changed successfully.\n";
+                    break;
+                }
+                case 5: {
+                    std::string newPassword;
+                    std::cout << "Set new password: ";
+                    std::getline(std::cin, newPassword);
+                    user->setPassword(newPassword);
+                    std::cout << "Password changed successfully.\n";
+                    break;
+                }
+                case 6:
+                    user->resetInputAttempts();
+                    std::cout << "Attempts reset.\n";
+                    break;
+                case 7:
+                    isUsing = false;
+                    break;
+                default:
+                    std::cout << "Thank you for using our ATM.\n";
+                    return;
+            }
         }
-        case 7:{
-            continue;
-            break;
-        }
-        default:
-            std::cout << "thenk you dor using our ATM"    }
-}
+    }
 }

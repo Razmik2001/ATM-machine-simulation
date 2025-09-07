@@ -1,4 +1,4 @@
-NAME    = ATM
+NAME    = ATM_test
 
 CC      = g++
 CFLAGS  = -Wall -Wextra -Werror -std=c++11 -g -ggdb3
