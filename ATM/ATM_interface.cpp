@@ -157,7 +157,8 @@ void ATM_interface::start() {
         bool isUsing = true;
         while (isUsing) {
             int choice;
-            std::cout << "\nWhat do you want to do?\n"
+            std::cout << "\nHi " << user->getFullName()
+                      << " what do you want to do?\n"
                       << "1: Check balance\n"
                       << "2: Cash in\n"
                       << "3: Cash out\n"

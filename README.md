@@ -75,7 +75,7 @@ User added successfully.
 Enter your username: john123
 Enter password: 12345
 
-What do you want to do?
+Hi John Doe what do you want to do?
 1: Check balance
 2: Cash in
 3: Cash out
@@ -87,7 +87,7 @@ Else: Exit
 1
 Balance: 0
 
-What do you want to do?
+Hi John Doe what do you want to do?
 1: Check balance
 2: Cash in
 3: Cash out
@@ -104,7 +104,7 @@ Choose banknote: 50
 Choose banknote: 0
 Deposit successful.
 
-What do you want to do?
+Hi John Doe what do you want to do?
 1: Check balance
 2: Cash in
 3: Cash out
@@ -116,7 +116,7 @@ Else: Exit
 1
 Balance: 150
 
-What do you want to do?
+Hi John Doe what do you want to do?
 1: Check balance
 2: Cash in
 3: Cash out
